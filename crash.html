@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZEROKING | 3D CRASH PRO</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --neon: #00ff66;
+        --bg: #05080b;
+        --accent: #f1c40f;
+      }
+      body {
+        background: var(--bg);
+        color: white;
+        font-family: "Cairo";
+        margin: 0;
+        overflow: hidden;
+      }
+
+      /* الهيدر */
+      .game-header {
+        background: #0d1117;
+        padding: 15px;
+        border-bottom: 2px solid var(--neon);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+      }
+
+      /* ساحة اللعب 3D */
+      #game-area {
+        position: relative;
+        width: 100%;
+        height: 45vh;
+        perspective: 1200px;
+        background: radial-gradient(circle at center, #1a1f26 0%, #05080b 100%);
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .multiplier {
+        font-size: 80px;
+        font-weight: 900;
+        color: var(--neon);
+        text-shadow: 0 0 30px rgba(0, 255, 102, 0.6);
+        z-index: 5;
+        transition: 0.1s;
+      }
+
+      .plane-container {
+        position: absolute;
+        bottom: 20%;
+        left: 10%;
+        font-size: 70px;
+        filter: drop-shadow(0 0 15px var(--neon));
+        z-index: 10;
+        transform-style: preserve-3d;
+      }
+
+      .status-bar {
+        position: absolute;
+        top: 10%;
+        width: 100%;
+        text-align: center;
+        color: var(--accent);
+        font-weight: bold;
+        font-size: 18px;
+        letter-spacing: 1px;
+      }
+
+      /* منطقة التحكم */
+      .controls {
+        padding: 25px;
+        background: #0d1117;
+        border-radius: 35px 35px 0 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        box-sizing: border-box;
+        border-top: 1px solid #333;
+      }
+
+      .bet-input {
+        width: 100%;
+        padding: 18px;
+        border-radius: 15px;
+        background: #000;
+        border: 2px solid #222;
+        color: var(--neon);
+        text-align: center;
+        font-size: 22px;
+        margin-bottom: 15px;
+        font-family: "Cairo";
+        outline: none;
+      }
+      .bet-input:focus {
+        border-color: var(--neon);
+      }
+
+      .btn {
+        width: 100%;
+        padding: 20px;
+        border-radius: 15px;
+        font-weight: 900;
+        font-size: 24px;
+        cursor: pointer;
+        border: none;
+        font-family: "Cairo";
+        transition: 0.3s;
+        text-transform: uppercase;
+      }
+      .btn-bet {
+        background: var(--neon);
+        color: #000;
+        box-shadow: 0 5px 15px rgba(0, 255, 102, 0.4);
+      }
+      .btn-cash {
+        background: var(--accent);
+        color: #000;
+        box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
+      }
+      .btn-waiting {
+        background: #1a1f26;
+        color: #555;
+        cursor: not-allowed;
+        border: 1px solid #333;
+      }
+
+      /* تأثيرات بصرية */
+      .crashed {
+        color: #ff4d4d !important;
+        text-shadow: 0 0 30px #ff4d4d;
+        animation: shake 0.2s infinite;
+      }
+      @keyframes shake {
+        0% {
+          transform: translate(1px, 1px);
+        }
+        50% {
+          transform: translate(-2px, -1px);
+        }
+        100% {
+          transform: translate(1px, 1px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="game-header">
+      <div id="uBal" style="color: var(--accent)">جاري المزامنة...</div>
+      <div style="color: var(--neon); font-weight: 900">ZEROKING CRASH</div>
+    </div>
+
+    <div id="game-area">
+      <div class="status-bar" id="gameStatus">في انتظار الجولة القادمة...</div>
+      <div class="multiplier" id="multDisplay">1.00x</div>
+      <div class="plane-container" id="plane">✈️</div>
+    </div>
+
+    <div class="controls">
+      <input
+        type="number"
+        id="betAmount"
+        class="bet-input"
+        placeholder="مبلغ الرهان"
+      />
+      <button id="mainBtn" class="btn btn-bet" onclick="handleBet()">
+        ضع رهانك 🚀
+      </button>
+      <button
+        onclick="window.location.href='index.html'"
+        style="
+          background: none;
+          border: none;
+          color: #444;
+          margin-top: 15px;
+          cursor: pointer;
+          width: 100%;
+          font-family: 'Cairo';
+        "
+      >
+        العودة للرئيسية
+      </button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyDSZmFVNSOy9dnrE6RJk1-8eOloncTmjWg",
+        databaseURL:
+          "https://zero-aaaca-default-rtdb.asia-southeast1.firebasedatabase.app/",
+        projectId: "zero-aaaca",
+        appId: "1:866040129447:web:572b5f402d48885e67f882",
+      };
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.database();
+
+      let user = localStorage.getItem("active_user");
+      let balance = 0;
+      let isBetting = false;
+      let hasCashedOut = false;
+      let currentMultiplier = 1.0;
+      let gameState = "waiting";
+
+      // مزامنة الرصيد الحي
+      db.ref("users/" + user + "/balance").on("value", (s) => {
+        balance = s.val() || 0;
+        document.getElementById("uBal").innerText = balance.toFixed(2) + " ج.م";
+      });
+
+      // تشغيل نظام الـ 24 ساعة
+      function startSystem() {
+        gameState = "waiting";
+        let countdown = 10;
+        isBetting = false;
+        hasCashedOut = false;
+
+        document.getElementById("multDisplay").classList.remove("crashed");
+        document.getElementById(
+          "plane"
+        ).style.transform = `translate(0,0) rotate(0deg)`;
+
+        let timer = setInterval(() => {
+          document.getElementById(
+            "gameStatus"
+          ).innerText = `تبدأ الجولة خلال: ${countdown} ثانية`;
+          document.getElementById("multDisplay").innerText = "PREPARING";
+          countdown--;
+
+          if (countdown < 0) {
+            clearInterval(timer);
+            launchFlight();
+          }
+        }, 1000);
+      }
+
+      function launchFlight() {
+        gameState = "running";
+        currentMultiplier = 1.0;
+        document.getElementById("gameStatus").innerText = "الطيارة في الجو! 🚀";
+
+        if (isBetting) {
+          setButtonToCashOut();
+        }
+
+        let crashPoint = (Math.random() * 4.5 + 1.1).toFixed(2);
+
+        let flight = setInterval(() => {
+          currentMultiplier += 0.01;
+          document.getElementById("multDisplay").innerText =
+            currentMultiplier.toFixed(2) + "x";
+
+          if (isBetting && !hasCashedOut) {
+            updateProfitOnButton();
+          }
+
+          // حركة 3D متقدمة
+          let x = (currentMultiplier - 1) * 70;
+          let y = (currentMultiplier - 1) * -45;
+          document.getElementById(
+            "plane"
+          ).style.transform = `translate(${x}px, ${y}px) rotateX(25deg) rotateZ(-15deg)`;
+
+          if (currentMultiplier >= crashPoint) {
+            clearInterval(flight);
+            handleCrash();
+          }
+        }, 60);
+      }
+
+      function handleCrash() {
+        gameState = "crashed";
+        document.getElementById("gameStatus").innerText = "انفجرت الطيارة! 💥";
+        document.getElementById("multDisplay").classList.add("crashed");
+
+        resetButton();
+        setTimeout(startSystem, 3000);
+      }
+
+      function handleBet() {
+        let amt = parseFloat(document.getElementById("betAmount").value);
+        if (!amt || amt <= 0 || amt > balance) return alert("تأكد من الرصيد!");
+
+        db.ref("users/" + user + "/balance")
+          .set(balance - amt)
+          .then(() => {
+            isBetting = true;
+            const btn = document.getElementById("mainBtn");
+            btn.innerText = "تم قبول الرهان.. انتظر الإقلاع";
+            btn.className = "btn btn-waiting";
+            btn.onclick = null;
+          });
+      }
+
+      function setButtonToCashOut() {
+        const btn = document.getElementById("mainBtn");
+        btn.className = "btn btn-cash";
+        btn.onclick = cashOut;
+      }
+
+      function updateProfitOnButton() {
+        let amt = parseFloat(document.getElementById("betAmount").value);
+        let currentWin = (amt * currentMultiplier).toFixed(2);
+        document.getElementById(
+          "mainBtn"
+        ).innerText = `سحب الأرباح (${currentWin} ج.م) 💰`;
+      }
+
+      function cashOut() {
+        if (gameState !== "running" || hasCashedOut) return;
+
+        let amt = parseFloat(document.getElementById("betAmount").value);
+        let finalWin = amt * currentMultiplier;
+        hasCashedOut = true;
+
+        db.ref("users/" + user + "/balance")
+          .transaction((c) => (c || 0) + finalWin)
+          .then(() => {
+            const btn = document.getElementById("mainBtn");
+            btn.innerText = `تم السحب (+${finalWin.toFixed(2)}) ✅`;
+            btn.className = "btn btn-waiting";
+            btn.onclick = null;
+          });
+      }
+
+      function resetButton() {
+        const btn = document.getElementById("mainBtn");
+        btn.innerText = "ضع رهانك للجولة القادمة 🚀";
+        btn.className = "btn btn-bet";
+        btn.onclick = handleBet;
+      }
+
+      window.onload = startSystem;
+    </script>
+  </body>
+</html>

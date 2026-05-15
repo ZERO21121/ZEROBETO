@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZEROKING | الرئيسية</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --neon: #00ff66;
+        --bg: #05080b;
+        --card-bg: #1a1f26;
+      }
+      body {
+        background: var(--bg);
+        color: white;
+        font-family: "Cairo", sans-serif;
+        margin: 0;
+        padding-bottom: 20px;
+      }
+
+      /* الهيدر */
+      .header {
+        background: #0d1117;
+        padding: 15px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid var(--neon);
+      }
+      .logo {
+        color: var(--neon);
+        font-weight: 900;
+        font-size: 24px;
+        text-shadow: 0 0 10px var(--neon);
+      }
+      .balance {
+        color: #f1c40f;
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      /* منطقة الأزرار العلوي */
+      .nav-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        padding: 20px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        padding: 12px 25px;
+        border-radius: 12px;
+        border: none;
+        font-weight: bold;
+        font-family: "Cairo";
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.3s;
+      }
+      .btn-dep {
+        background: var(--neon);
+        color: #000;
+      }
+      .btn-with {
+        background: #1a1f26;
+        color: white;
+        border: 1px solid #333;
+      }
+      .btn-prof {
+        background: #333;
+        color: white;
+      }
+
+      /* قسم الألعاب */
+      .games-section {
+        padding: 20px;
+        text-align: center;
+      }
+      .section-title {
+        color: var(--neon);
+        margin-bottom: 20px;
+        font-size: 20px;
+        border-right: 4px solid var(--neon);
+        padding-right: 10px;
+        display: inline-block;
+      }
+
+      .games-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .game-card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid #333;
+        cursor: pointer;
+        transition: 0.3s;
+        position: relative;
+      }
+      .game-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--neon);
+      }
+      .game-card img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+      }
+      .game-info {
+        padding: 10px;
+        font-weight: bold;
+        font-size: 14px;
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      /* المودال */
+      .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+      }
+      .modal-content {
+        background: #161b22;
+        width: 90%;
+        max-width: 400px;
+        margin: 50px auto;
+        border-radius: 20px;
+        border: 1px solid var(--neon);
+        padding: 20px;
+        text-align: center;
+      }
+      input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 10px;
+        border: 1px solid #333;
+        background: #000;
+        color: white;
+        text-align: center;
+        box-sizing: border-box;
+        font-family: "Cairo";
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div id="uBal" class="balance">0.00 ج.م</div>
+      <div class="logo" onclick="checkAdmin()">ZEROKING</div>
+    </header>
+
+    <div class="nav-buttons">
+      <button class="btn btn-dep" onclick="openM('depModal')">إيداع 💰</button>
+      <button class="btn btn-with" onclick="openM('withModal')">سحب 💸</button>
+      <button
+        class="btn btn-prof"
+        onclick="window.location.href='profile.html'"
+      >
+        👤 الملف الشخصي
+      </button>
+    </div>
+
+    <div class="games-section">
+      <h2 class="section-title">الألعاب المتاحة 🎮</h2>
+      <div class="games-grid">
+        <div class="game-card" onclick="window.location.href='crash.html'">
+          <img src="https://i.ibb.co/hM4P7zB/crash.png" alt="Crash Game" />
+          <div class="game-info">طيارة الحظ (Crash) ✈️</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="depModal" class="modal">
+      <div class="modal-content">
+        <h3>إيداع رصيد</h3>
+        <input type="number" id="dAm" placeholder="المبلغ" /><button
+          class="btn btn-dep"
+          style="width: 100%"
+          onclick="alert('تم ارسال الطلب')"
+        >
+          تأكيد</button
+        ><button onclick="closeM('depModal')">إلغاء</button>
+      </div>
+    </div>
+    <div id="withModal" class="modal">
+      <div class="modal-content">
+        <h3>سحب أرباح</h3>
+        <input type="number" id="wAm" placeholder="المبلغ" /><button
+          class="btn btn-dep"
+          style="width: 100%"
+          onclick="alert('تم ارسال الطلب')"
+        >
+          تأكيد</button
+        ><button onclick="closeM('withModal')">إلغاء</button>
+      </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyDSZmFVNSOy9dnrE6RJk1-8eOloncTmjWg",
+        databaseURL:
+          "https://zero-aaaca-default-rtdb.asia-southeast1.firebasedatabase.app/",
+        projectId: "zero-aaaca",
+        appId: "1:866040129447:web:572b5f402d48885e67f882",
+      };
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.database();
+      let user = localStorage.getItem("active_user");
+
+      if (!user) window.location.href = "login.html";
+
+      // تحديث الرصيد لحظياً من السيرفر
+      db.ref("users/" + user + "/balance").on("value", (s) => {
+        document.getElementById("uBal").innerText =
+          (s.val() || 0).toFixed(2) + " ج.م";
+      });
+
+      function openM(id) {
+        document.getElementById(id).style.display = "block";
+      }
+      function closeM(id) {
+        document.getElementById(id).style.display = "none";
+      }
+
+      let clks = 0;
+      function checkAdmin() {
+        clks++;
+        if (clks >= 5) {
+          if (prompt("Pass:") === "12345") window.location.href = "admin.html";
+          clks = 0;
+        }
+      }
+    </script>
+  </body>
+</html>

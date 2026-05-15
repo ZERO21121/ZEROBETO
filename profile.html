@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>الملف الشخصي | ZEROKING</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: #05080b;
+        color: white;
+        font-family: "Cairo";
+        display: flex;
+        justify-content: center;
+        padding-top: 50px;
+      }
+      .card {
+        background: #0d1117;
+        width: 350px;
+        padding: 30px;
+        border-radius: 20px;
+        border: 1px solid #00ff66;
+        text-align: center;
+      }
+      .info {
+        background: #000;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid #222;
+      }
+      .btn-exit {
+        background: #ff4d4d;
+        color: white;
+        border: none;
+        width: 100%;
+        padding: 15px;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div style="font-size: 50px">👤</div>
+      <h3 id="pName">الملك ZEROKING</h3>
+      <div class="info">
+        <span>ID الحساب:</span> <span id="pId" style="color: #00ff66">---</span>
+      </div>
+      <div class="info">
+        <span>الرصيد الحالي:</span>
+        <span id="pBal" style="color: #f1c40f">0.00 ج.م</span>
+      </div>
+      <button class="btn-exit" onclick="logout()">تسجيل الخروج 🚪</button>
+      <button
+        onclick="window.location.href='index.html'"
+        style="
+          background: none;
+          border: none;
+          color: #666;
+          margin-top: 15px;
+          cursor: pointer;
+        "
+      >
+        العودة للرئيسية
+      </button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyDSZmFVNSOy9dnrE6RJk1-8eOloncTmjWg",
+        databaseURL:
+          "https://zero-aaaca-default-rtdb.asia-southeast1.firebasedatabase.app/",
+        projectId: "zero-aaaca",
+        appId: "1:866040129447:web:572b5f402d48885e67f882",
+      };
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.database();
+      let user = localStorage.getItem("active_user");
+
+      if (!user) window.location.href = "login.html";
+
+      document.getElementById("pId").innerText = user;
+
+      // جلب البيانات من السيرفر
+      db.ref("users/" + user).on("value", (s) => {
+        let data = s.val() || { balance: 0 };
+        document.getElementById("pBal").innerText =
+          (data.balance || 0).toFixed(2) + " ج.م";
+      });
+
+      function logout() {
+        localStorage.removeItem("active_user");
+        window.location.href = "login.html";
+      }
+    </script>
+  </body>
+</html>

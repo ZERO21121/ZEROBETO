@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>لوحة الإدارة 👑</title>
+    <style>
+      body {
+        background: #05080b;
+        color: white;
+        text-align: center;
+        font-family: sans-serif;
+        padding: 50px;
+      }
+      .card {
+        background: #0d1117;
+        border: 1px solid #00ff66;
+        padding: 20px;
+        border-radius: 15px;
+        width: 300px;
+        margin: auto;
+      }
+      input {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        background: #000;
+        color: #00ff66;
+        border: 1px solid #333;
+        text-align: center;
+      }
+      button {
+        width: 95%;
+        padding: 12px;
+        background: #00ff66;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h3>شحن رصيد لاعب 💰</h3>
+      <input type="text" id="target" placeholder="ID اللاعب" />
+      <input type="number" id="amount" placeholder="المبلغ" />
+      <button onclick="add()">تأكيد الشحن ⚡</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyDSZmFVNSOy9dnrE6RJk1-8eOloncTmjWg",
+        databaseURL:
+          "https://zero-aaaca-default-rtdb.asia-southeast1.firebasedatabase.app/",
+        projectId: "zero-aaaca",
+        appId: "1:866040129447:web:572b5f402d48885e67f882",
+      };
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.database();
+
+      function add() {
+        let id = document.getElementById("target").value;
+        let val = parseFloat(document.getElementById("amount").value);
+        db.ref("users/" + id + "/balance")
+          .transaction((c) => (c || 0) + val)
+          .then(() => alert("تم الشحن!"));
+      }
+    </script>
+  </body>
+</html>

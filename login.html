@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>دخول الملوك | ZEROKING</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: #05080b;
+        font-family: "Cairo";
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        color: white;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        padding: 30px;
+        border-radius: 20px;
+        border: 1px solid #00ff6644;
+        width: 350px;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      }
+      h2 {
+        color: #00ff66;
+        text-shadow: 0 0 10px #00ff66;
+      }
+      input {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        border: 1px solid #222;
+        background: #000;
+        color: #00ff66;
+        outline: none;
+        box-sizing: border-box;
+        text-align: center;
+      }
+      .btn-m {
+        width: 100%;
+        padding: 15px;
+        background: #00ff66;
+        color: #000;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+      .btn-q {
+        width: 100%;
+        padding: 12px;
+        background: none;
+        border: 1px dashed #00ff66;
+        color: #00ff66;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      #showCreds {
+        display: none;
+        background: #000;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #f1c40f;
+        margin-top: 15px;
+        color: #f1c40f;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>ZEROKING</h2>
+      <input type="text" id="uid" placeholder="رقم الهاتف / الـ ID" />
+      <input type="password" id="upass" placeholder="كلمة السر" />
+      <button class="btn-m" onclick="login()">دخول الآن ⚡</button>
+      <button class="btn-q" id="regBtn" onclick="fastReg()">
+        ⚡ إنشاء حساب بنقرة واحدة
+      </button>
+      <div id="showCreds"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyDSZmFVNSOy9dnrE6RJk1-8eOloncTmjWg",
+        databaseURL:
+          "https://zero-aaaca-default-rtdb.asia-southeast1.firebasedatabase.app/",
+        projectId: "zero-aaaca",
+        appId: "1:866040129447:web:572b5f402d48885e67f882",
+      };
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.database();
+
+      function fastReg() {
+        let id = "ZK-" + Math.floor(Math.random() * 90000 + 10000);
+        let pass = Math.floor(Math.random() * 9000 + 1000);
+        db.ref("users/" + id)
+          .set({ password: pass, balance: 0 })
+          .then(() => {
+            document.getElementById("showCreds").style.display = "block";
+            document.getElementById(
+              "showCreds"
+            ).innerHTML = `✅ احفظ بياناتك:<br>ID: ${id}<br>Pass: ${pass}`;
+            alert(`تم إنشاء حسابك!\nID: ${id}\nPass: ${pass}`);
+          });
+      }
+
+      function login() {
+        let id = document.getElementById("uid").value;
+        let pass = document.getElementById("upass").value;
+        db.ref("users/" + id)
+          .once("value")
+          .then((s) => {
+            if (s.exists() && s.val().password == pass) {
+              localStorage.setItem("active_user", id);
+              window.location.href = "index.html";
+            } else {
+              alert("بيانات خاطئة!");
+            }
+          });
+      }
+    </script>
+  </body>
+</html>
