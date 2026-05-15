@@ -22,7 +22,7 @@
         font-family: "Cairo", sans-serif;
         margin: 0;
         user-select: none;
-        font-size: 14px;
+        overflow-x: hidden;
       }
 
       /* الهيدر */
@@ -44,7 +44,7 @@
         cursor: pointer;
       }
 
-      /* الألعاب */
+      /* شبكة الألعاب بالصور الجديدة */
       .games-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -57,14 +57,35 @@
         overflow: hidden;
         border: 1px solid #21262d;
         text-align: center;
+        transition: 0.2s;
       }
-      .game-card img {
-        width: 100%;
-        height: 100px;
-        object-fit: cover;
+      .game-card:active {
+        transform: scale(0.95);
       }
 
-      /* النوافذ (Modals) */
+      .game-card img {
+        width: 100%;
+        height: 115px;
+        object-fit: cover;
+        border-bottom: 1px solid #21262d;
+      }
+      .game-card h4 {
+        margin: 8px 0;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      /* الأزرار والنوافذ */
+      .btn-action {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        font-family: "Cairo";
+      }
       .modal {
         display: none;
         position: fixed;
@@ -88,16 +109,6 @@
         color: white;
         border-radius: 8px;
         box-sizing: border-box;
-      }
-      .btn-action {
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        margin-top: 10px;
-        font-family: "Cairo";
       }
 
       /* القائمة الجانبية */
@@ -123,16 +134,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.85);
+        background: rgba(0, 0, 0, 0.9);
         z-index: 2500;
-      }
-      .info-box {
-        background: #161b22;
-        padding: 10px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        border: 1px solid #21262d;
-        font-size: 12px;
       }
     </style>
   </head>
@@ -144,8 +147,9 @@
         style="
           cursor: pointer;
           border: 1px solid var(--accent);
-          padding: 4px 10px;
-          border-radius: 15px;
+          padding: 4px 12px;
+          border-radius: 20px;
+          font-size: 12px;
         "
       >
         👤 ملفي
@@ -154,16 +158,20 @@
 
     <div class="games-grid">
       <div class="game-card" onclick="location.href='crash.html'">
-        <img src="https://i.ibb.co/Vv9rS9Z/crash-thumb.png" />
-        <h4>CRASH AI</h4>
+        <img
+          src="https://i.ibb.co/PsFrw0TH/crash-predictor-aviator-logo-1.avif"
+          alt="Crash"
+        />
+        <h4>CRASH AI ✈️</h4>
       </div>
+
       <div class="game-card" onclick="location.href='apple.html'">
-        <img src="https://i.ibb.co/Vv9rS9Z/apple-thumb.png" />
-        <h4>APPLE</h4>
+        <img src="https://i.ibb.co/qMfbZKR4/138.jpg" alt="Apple Gold" />
+        <h4>APPLE GOLD 🍎</h4>
       </div>
     </div>
 
-    <div style="display: flex; gap: 10px; padding: 15px">
+    <div style="display: flex; gap: 10px; padding: 0 15px">
       <button
         class="btn-action"
         style="background: var(--accent); color: black"
@@ -181,86 +189,122 @@
     </div>
 
     <div id="depositModal" class="modal">
-      <h3 style="margin: 0; color: var(--gold)">طلب إيداع</h3>
-      <p style="font-size: 11px; color: #888">
-        حول المبلغ لـ: <b style="color: white">01011294483</b>
-      </p>
-      <input type="number" id="depAmt" placeholder="المبلغ المراد إيداعه" />
-      <input
-        type="text"
-        id="depPhone"
-        placeholder="رقم الموبايل الذي حولت منه"
-      />
+      <h3 style="margin: 0; text-align: center">إيداع رصيد</h3>
       <button
         class="btn-action"
-        style="background: var(--accent); color: black"
+        style="background: #0088cc; color: white"
+        onclick="window.open('https://t.me/Kash_bak1xbet')"
+      >
+        وكيل معتمد للشحن 💎
+      </button>
+      <p
+        style="font-size: 10px; color: #666; text-align: center; margin: 10px 0"
+      >
+        أو حول لـ: 01011294483
+      </p>
+      <input type="number" id="depAmt" placeholder="المبلغ" />
+      <input type="text" id="depPhone" placeholder="رقمك الذي حولت منه" />
+      <button
+        class="btn-action"
+        style="background: var(--accent)"
         onclick="handleTransaction('deposit')"
       >
-        تأكيد الإيداع
+        تأكيد الطلب
       </button>
       <button
         onclick="closeModal()"
         style="
           background: none;
           border: none;
-          color: #555;
+          color: #444;
           width: 100%;
-          margin-top: 10px;
+          margin-top: 5px;
         "
       >
-        إلغاء
+        إغلاق
       </button>
     </div>
 
     <div id="withdrawModal" class="modal">
-      <h3 style="margin: 0; color: var(--red)">طلب سحب</h3>
-      <input type="number" id="withAmt" placeholder="المبلغ المراد سحبه" />
-      <input
-        type="text"
-        id="withPhone"
-        placeholder="رقم الموبايل لاستلام الأموال"
-      />
+      <h3 style="margin: 0; text-align: center">سحب أرباح</h3>
+      <button
+        class="btn-action"
+        style="background: #0088cc; color: white"
+        onclick="window.open('https://t.me/Kash_bak1xbet')"
+      >
+        سحب عبر الوكيل 💎
+      </button>
+      <input type="number" id="withAmt" placeholder="المبلغ للسحب" />
+      <input type="text" id="withPhone" placeholder="رقم الاستلام" />
       <button
         class="btn-action"
         style="background: var(--red); color: white"
         onclick="handleTransaction('withdraw')"
       >
-        تأكيد السحب
+        طلب سحب فوري
       </button>
       <button
         onclick="closeModal()"
         style="
           background: none;
           border: none;
-          color: #555;
+          color: #444;
           width: 100%;
-          margin-top: 10px;
+          margin-top: 5px;
         "
       >
-        إلغاء
+        إغلاق
       </button>
     </div>
 
     <div id="sideMenu" class="side-menu">
       <h3 style="text-align: center; color: var(--accent)">الملف الشخصي</h3>
-      <div class="info-box">الاسم: <b id="pName">--</b></div>
-      <div class="info-box">ID: <b id="pID">#0000</b></div>
-      <div class="info-box">
-        الرصيد: <b id="pBal" style="color: var(--gold)">0.00 EGP</b>
+      <div
+        style="
+          background: #161b22;
+          padding: 12px;
+          border-radius: 10px;
+          margin-bottom: 10px;
+        "
+      >
+        <div style="color: #888; font-size: 10px">اسم المستخدم</div>
+        <b id="pName" style="color: white; font-size: 16px">--</b>
+      </div>
+      <div
+        style="
+          background: #161b22;
+          padding: 12px;
+          border-radius: 10px;
+          margin-bottom: 10px;
+        "
+      >
+        <div style="color: #888; font-size: 10px">ID الحساب</div>
+        <b id="pID" style="color: var(--gold)">#0000</b>
+      </div>
+      <div
+        style="
+          background: #161b22;
+          padding: 12px;
+          border-radius: 10px;
+          margin-bottom: 10px;
+        "
+      >
+        <div style="color: #888; font-size: 10px">الرصيد المتاح</div>
+        <b id="pBal" style="color: var(--accent); font-size: 18px">0.00 EGP</b>
       </div>
       <button
         class="btn-action"
-        style="background: var(--accent); color: black"
+        style="background: var(--accent)"
         onclick="toggleMenu(false)"
       >
-        الرجوع للرئيسية
+        رجوع للرئيسية
       </button>
       <button
         class="btn-action"
         style="background: var(--red); color: white"
         onclick="logout()"
       >
-        خروج
+        تسجيل الخروج
       </button>
     </div>
 
@@ -285,7 +329,7 @@
       let user = localStorage.getItem("active_user") || "guest";
       let currentBalance = 0;
 
-      // تحديث البيانات
+      // مزامنة البيانات
       db.ref("users/" + user).on("value", (s) => {
         if (s.val()) {
           currentBalance = s.val().balance || 0;
@@ -297,7 +341,7 @@
         }
       });
 
-      // التعامل مع الإيداع والسحب
+      // عمليات السحب والإيداع
       function handleTransaction(type) {
         let amt = parseFloat(
           document.getElementById(type === "deposit" ? "depAmt" : "withAmt")
@@ -306,16 +350,13 @@
         let phone = document.getElementById(
           type === "deposit" ? "depPhone" : "withPhone"
         ).value;
-
-        if (!amt || !phone) return alert("أكمل البيانات!");
+        if (!amt || !phone) return alert("اكمل البيانات");
 
         if (type === "withdraw") {
-          if (amt > currentBalance) return alert("رصيدك لا يكفي!");
-          // خصم فوري من رصيد اللاعب عند السحب
+          if (amt > currentBalance) return alert("رصيدك غير كافي!");
           db.ref("users/" + user + "/balance").set(currentBalance - amt);
         }
 
-        // إرسال الطلب للإدمن
         db.ref("admin_requests").push({
           user: user,
           type: type,
@@ -324,26 +365,17 @@
           time: new Date().toLocaleString(),
           status: "pending",
         });
-
-        alert(
-          type === "deposit"
-            ? "تم إرسال طلب الإيداع.. انتظر المراجعة"
-            : "تم خصم المبلغ وإرسال طلب السحب"
-        );
+        alert("تم إرسال الطلب بنجاح");
         closeModal();
       }
 
-      // كود الإدمن السري
+      // كود الإدمن السري (5 ضغطات + باسورد 12345)
       let clicks = 0;
       document.getElementById("adminTrigger").onclick = () => {
         clicks++;
         if (clicks === 5) {
-          let pass = prompt("أدخل كلمة سر الإدمن:");
-          if (pass === "12345") {
-            location.href = "admin.html";
-          } else {
-            alert("كلمة سر خاطئة!");
-          }
+          let p = prompt("كلمة سر الإدمن:");
+          if (p === "12345") location.href = "admin.html";
           clicks = 0;
         }
         setTimeout(() => (clicks = 0), 2000);
@@ -359,11 +391,9 @@
           .forEach((m) => (m.style.display = "none"));
         document.getElementById("overlay").style.display = "none";
       }
-      function toggleMenu(show) {
-        document.getElementById("sideMenu").classList.toggle("active", show);
-        document.getElementById("overlay").style.display = show
-          ? "block"
-          : "none";
+      function toggleMenu(s) {
+        document.getElementById("sideMenu").classList.toggle("active", s);
+        document.getElementById("overlay").style.display = s ? "block" : "none";
       }
       function logout() {
         localStorage.removeItem("active_user");
