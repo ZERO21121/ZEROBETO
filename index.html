@@ -3,21 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZEROKING | OFFICIAL</title>
+    <title>1ILLONBET | OFFICIAL</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --main-bg: #05070a;
-        --card-bg: #0d1117;
-        --accent: #00ff66;
-        --gold: #ffdf00;
-        --red: #ff4d4d;
+        --main-bg: #030508;
+        --card-bg: rgba(0, 0, 0, 0.6); /* خلفية البطاقات أغمق لتناسب الصورة */
+        --accent: #ffdf00;
+        --accent-glow: rgba(255, 223, 0, 0.3);
+        --red: #ff3333;
+        --glass-border: rgba(255, 255, 255, 0.15);
       }
+
       body {
-        background: var(--main-bg);
+        /* دمج الصورة مع طبقة تظليل سوداء احترافية */
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+          url("https://i.ibb.co/PG8XjZS1/cindy-f-fgwl-WRw-Rf5g-unsplash.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed; /* الخلفية ثابتة لتعطي تأثير Parallax */
         color: white;
         font-family: "Cairo", sans-serif;
         margin: 0;
@@ -25,89 +32,161 @@
         overflow-x: hidden;
       }
 
-      /* الهيدر */
+      /* هيدر سينمائي شفاف */
       .top-nav {
-        background: #0a0d14;
-        padding: 10px 15px;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
+        padding: 15px 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid #1a1f2c;
+        border-bottom: 1px solid var(--glass-border);
         position: sticky;
         top: 0;
         z-index: 1000;
       }
+
       .brand {
         font-weight: 900;
-        color: var(--accent);
-        font-size: 18px;
+        font-size: 24px;
+        letter-spacing: 1px;
+        background: linear-gradient(45deg, #ffdf00, #ffffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         cursor: pointer;
+        text-shadow: 0 0 15px var(--accent-glow);
       }
 
-      /* شبكة الألعاب بالصور الجديدة */
+      .user-profile-btn {
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--accent);
+        padding: 6px 15px;
+        border-radius: 50px;
+        font-size: 13px;
+        transition: 0.3s;
+      }
+
+      .user-profile-btn:hover {
+        background: var(--accent);
+        color: black;
+        box-shadow: 0 0 15px var(--accent);
+      }
+
+      /* العناوين */
+      .section-title {
+        padding: 25px 20px 5px;
+        font-size: 12px;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-weight: 900;
+      }
+
+      /* شبكة الألعاب */
       .games-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 12px;
+        gap: 15px;
         padding: 15px;
       }
+
       .game-card {
         background: var(--card-bg);
-        border-radius: 15px;
+        backdrop-filter: blur(5px); /* تأثير زجاجي للبطاقات */
+        border-radius: 20px;
         overflow: hidden;
-        border: 1px solid #21262d;
-        text-align: center;
-        transition: 0.2s;
+        border: 1px solid var(--glass-border);
+        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
       }
-      .game-card:active {
-        transform: scale(0.95);
+
+      .game-card:hover {
+        transform: scale(1.05);
+        border-color: var(--accent);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       }
 
       .game-card img {
         width: 100%;
-        height: 115px;
+        height: 120px;
         object-fit: cover;
-        border-bottom: 1px solid #21262d;
-      }
-      .game-card h4 {
-        margin: 8px 0;
-        font-size: 12px;
-        font-weight: 900;
+        opacity: 0.9;
       }
 
-      /* الأزرار والنوافذ */
-      .btn-action {
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        margin-top: 10px;
-        font-family: "Cairo";
+      .game-card h4 {
+        margin: 10px 0;
+        font-size: 13px;
+        font-weight: 700;
+        text-align: center;
       }
+
+      /* حاوية الأزرار */
+      .action-container {
+        display: flex;
+        gap: 12px;
+        padding: 20px 15px;
+      }
+
+      .btn-action {
+        flex: 1;
+        padding: 16px;
+        border: none;
+        border-radius: 15px;
+        font-weight: 900;
+        font-family: "Cairo";
+        font-size: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-transform: uppercase;
+      }
+
+      .btn-deposit {
+        background: linear-gradient(45deg, #ffdf00, #ccac00);
+        color: black;
+        box-shadow: 0 5px 20px rgba(255, 223, 0, 0.2);
+      }
+
+      .btn-withdraw {
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        border: 1px solid var(--glass-border);
+        backdrop-filter: blur(5px);
+      }
+
+      .btn-action:active {
+        transform: scale(0.95);
+      }
+
+      /* النوافذ (Modals) */
       .modal {
         display: none;
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: #0d1117;
-        padding: 20px;
-        border-radius: 15px;
+        background: rgba(13, 17, 23, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 25px;
+        border-radius: 30px;
         border: 1px solid var(--accent);
         z-index: 3000;
         width: 85%;
-        max-width: 350px;
+        max-width: 380px;
       }
+
       .modal input {
         width: 100%;
-        padding: 10px;
-        margin: 8px 0;
-        background: #05070a;
-        border: 1px solid #222;
+        padding: 14px;
+        margin: 10px 0;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--glass-border);
         color: white;
-        border-radius: 8px;
+        border-radius: 12px;
         box-sizing: border-box;
       }
 
@@ -116,17 +195,28 @@
         position: fixed;
         top: 0;
         right: -100%;
-        width: 80%;
+        width: 85%;
         height: 100%;
-        background: #0d1117;
+        background: rgba(5, 7, 10, 0.95);
+        backdrop-filter: blur(15px);
         z-index: 4000;
-        transition: 0.4s;
-        padding: 20px;
+        transition: 0.5s;
+        padding: 30px 20px;
         border-left: 1px solid var(--accent);
       }
+
       .side-menu.active {
         right: 0;
       }
+
+      .stats-card {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px;
+        border-radius: 15px;
+        margin-bottom: 12px;
+        border: 1px solid var(--glass-border);
+      }
+
       .overlay {
         display: none;
         position: fixed;
@@ -134,28 +224,18 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.9);
+        background: rgba(0, 0, 0, 0.85);
         z-index: 2500;
       }
     </style>
   </head>
   <body>
     <div class="top-nav">
-      <div class="brand" id="adminTrigger">ZEROKING</div>
-      <div
-        onclick="toggleMenu(true)"
-        style="
-          cursor: pointer;
-          border: 1px solid var(--accent);
-          padding: 4px 12px;
-          border-radius: 20px;
-          font-size: 12px;
-        "
-      >
-        👤 ملفي
-      </div>
+      <div class="brand" id="adminTrigger">1ILLONBET</div>
+      <div class="user-profile-btn" onclick="toggleMenu(true)">👤 حسابي</div>
     </div>
 
+    <div class="section-title">أهم الألعاب الآن</div>
     <div class="games-grid">
       <div class="game-card" onclick="location.href='crash.html'">
         <img
@@ -171,71 +251,68 @@
       </div>
     </div>
 
-    <div style="display: flex; gap: 10px; padding: 0 15px">
-      <button
-        class="btn-action"
-        style="background: var(--accent); color: black"
-        onclick="openModal('deposit')"
-      >
+    <div class="action-container">
+      <button class="btn-action btn-deposit" onclick="openModal('deposit')">
         💳 إيداع
       </button>
-      <button
-        class="btn-action"
-        style="background: #1a1f2c; color: white"
-        onclick="openModal('withdraw')"
-      >
+      <button class="btn-action btn-withdraw" onclick="openModal('withdraw')">
         💰 سحب
       </button>
     </div>
 
     <div id="depositModal" class="modal">
-      <h3 style="margin: 0; text-align: center">إيداع رصيد</h3>
+      <h3 style="margin: 0 0 15px; text-align: center; color: var(--accent)">
+        مركز الإيداع
+      </h3>
       <button
         class="btn-action"
-        style="background: #0088cc; color: white"
+        style="background: #0088cc; color: white; margin-bottom: 15px"
         onclick="window.open('https://t.me/Kash_bak1xbet')"
       >
-        وكيل معتمد للشحن 💎
+        تحدث مع الوكيل المعتمد 💎
       </button>
-      <p
-        style="font-size: 10px; color: #666; text-align: center; margin: 10px 0"
+      <div
+        style="
+          background: rgba(255, 255, 255, 0.05);
+          padding: 12px;
+          border-radius: 12px;
+          text-align: center;
+          margin-bottom: 15px;
+          border: 1px dashed var(--accent);
+        "
       >
-        أو حول لـ: 01011294483
-      </p>
-      <input type="number" id="depAmt" placeholder="المبلغ" />
-      <input type="text" id="depPhone" placeholder="رقمك الذي حولت منه" />
+        <small style="color: #aaa">رقم فودافون كاش:</small><br />
+        <b style="color: white; font-size: 18px">01011294483</b>
+      </div>
+      <input type="number" id="depAmt" placeholder="أدخل المبلغ" />
+      <input type="text" id="depPhone" placeholder="الرقم المحول منه" />
       <button
-        class="btn-action"
-        style="background: var(--accent)"
+        class="btn-action btn-deposit"
         onclick="handleTransaction('deposit')"
       >
-        تأكيد الطلب
+        تأكيد الإيداع
       </button>
       <button
         onclick="closeModal()"
         style="
           background: none;
           border: none;
-          color: #444;
+          color: #555;
           width: 100%;
-          margin-top: 5px;
+          margin-top: 10px;
+          cursor: pointer;
         "
       >
-        إغلاق
+        رجوع
       </button>
     </div>
 
     <div id="withdrawModal" class="modal">
-      <h3 style="margin: 0; text-align: center">سحب أرباح</h3>
-      <button
-        class="btn-action"
-        style="background: #0088cc; color: white"
-        onclick="window.open('https://t.me/Kash_bak1xbet')"
-      >
-        سحب عبر الوكيل 💎
-      </button>
-      <input type="number" id="withAmt" placeholder="المبلغ للسحب" />
-      <input type="text" id="withPhone" placeholder="رقم الاستلام" />
+      <h3 style="margin: 0 0 15px; text-align: center; color: var(--red)">
+        طلب سحب أرباح
+      </h3>
+      <input type="number" id="withAmt" placeholder="مبلغ السحب" />
+      <input type="text" id="withPhone" placeholder="رقم استلام الكاش" />
       <button
         class="btn-action"
         style="background: var(--red); color: white"
@@ -248,64 +325,62 @@
         style="
           background: none;
           border: none;
-          color: #444;
+          color: #555;
           width: 100%;
-          margin-top: 5px;
+          margin-top: 10px;
+          cursor: pointer;
         "
       >
-        إغلاق
+        رجوع
       </button>
     </div>
 
     <div id="sideMenu" class="side-menu">
-      <h3 style="text-align: center; color: var(--accent)">الملف الشخصي</h3>
       <div
         style="
-          background: #161b22;
-          padding: 12px;
-          border-radius: 10px;
-          margin-bottom: 10px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 30px;
         "
       >
-        <div style="color: #888; font-size: 10px">اسم المستخدم</div>
+        <h2 style="margin: 0; color: var(--accent); font-weight: 900">
+          1ILLONBET
+        </h2>
+        <span
+          onclick="toggleMenu(false)"
+          style="font-size: 30px; cursor: pointer"
+          >×</span
+        >
+      </div>
+
+      <div class="stats-card">
+        <div style="color: #888; font-size: 10px">الاسم المستعار</div>
         <b id="pName" style="color: white; font-size: 16px">--</b>
       </div>
-      <div
-        style="
-          background: #161b22;
-          padding: 12px;
-          border-radius: 10px;
-          margin-bottom: 10px;
-        "
-      >
-        <div style="color: #888; font-size: 10px">ID الحساب</div>
-        <b id="pID" style="color: var(--gold)">#0000</b>
+
+      <div class="stats-card">
+        <div style="color: #888; font-size: 10px">ID المستخدم</div>
+        <b id="pID" style="color: var(--accent)">#0000</b>
       </div>
+
       <div
-        style="
-          background: #161b22;
-          padding: 12px;
-          border-radius: 10px;
-          margin-bottom: 10px;
-        "
+        class="stats-card"
+        style="background: rgba(0, 255, 102, 0.05); border-color: #00ff66"
       >
-        <div style="color: #888; font-size: 10px">الرصيد المتاح</div>
-        <b id="pBal" style="color: var(--accent); font-size: 18px">0.00 EGP</b>
+        <div style="color: #888; font-size: 10px">الرصيد الكلي</div>
+        <b id="pBal" style="color: #00ff66; font-size: 22px">0.00 EGP</b>
       </div>
-      <button
-        class="btn-action"
-        style="background: var(--accent)"
-        onclick="toggleMenu(false)"
-      >
-        رجوع للرئيسية
-      </button>
-      <button
-        class="btn-action"
-        style="background: var(--red); color: white"
-        onclick="logout()"
-      >
-        تسجيل الخروج
-      </button>
+
+      <div style="margin-top: 50px">
+        <button
+          class="btn-action"
+          style="width: 100%; background: var(--red); color: white"
+          onclick="logout()"
+        >
+          تسجيل الخروج
+        </button>
+      </div>
     </div>
 
     <div
@@ -329,7 +404,6 @@
       let user = localStorage.getItem("active_user") || "guest";
       let currentBalance = 0;
 
-      // مزامنة البيانات
       db.ref("users/" + user).on("value", (s) => {
         if (s.val()) {
           currentBalance = s.val().balance || 0;
@@ -341,7 +415,6 @@
         }
       });
 
-      // عمليات السحب والإيداع
       function handleTransaction(type) {
         let amt = parseFloat(
           document.getElementById(type === "deposit" ? "depAmt" : "withAmt")
@@ -350,12 +423,13 @@
         let phone = document.getElementById(
           type === "deposit" ? "depPhone" : "withPhone"
         ).value;
-        if (!amt || !phone) return alert("اكمل البيانات");
+        if (!amt || !phone) return alert("يرجى إكمال الحقول المطلوبة");
 
-        if (type === "withdraw") {
-          if (amt > currentBalance) return alert("رصيدك غير كافي!");
+        if (type === "withdraw" && amt > currentBalance)
+          return alert("عذراً، رصيدك غير كافٍ");
+
+        if (type === "withdraw")
           db.ref("users/" + user + "/balance").set(currentBalance - amt);
-        }
 
         db.ref("admin_requests").push({
           user: user,
@@ -364,17 +438,17 @@
           phone: phone,
           time: new Date().toLocaleString(),
           status: "pending",
+          brand: "1ILLONBET",
         });
-        alert("تم إرسال الطلب بنجاح");
+        alert("تم استلام طلبك، جارٍ المراجعة من الإدارة");
         closeModal();
       }
 
-      // كود الإدمن السري (5 ضغطات + باسورد 12345)
       let clicks = 0;
       document.getElementById("adminTrigger").onclick = () => {
         clicks++;
         if (clicks === 5) {
-          let p = prompt("كلمة سر الإدمن:");
+          let p = prompt("كود الدخول للإدارة:");
           if (p === "12345") location.href = "admin.html";
           clicks = 0;
         }
