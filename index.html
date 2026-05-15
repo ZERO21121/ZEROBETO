@@ -3,231 +3,272 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZEROKING PLATFORM | DASHBOARD</title>
+    <title>ZEROKING | OFFICIAL</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --main-bg: #090c14;
-        --card-bg: #121723;
+        --main-bg: #05070a;
+        --card-bg: #0d1117;
         --accent: #00ff66;
-        --gold: #ffd700;
-        --sidebar-w: 250px;
+        --gold: #ffdf00;
+        --red: #ff4d4d;
       }
-
       body {
         background: var(--main-bg);
         color: white;
         font-family: "Cairo", sans-serif;
         margin: 0;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
+        user-select: none;
+        font-size: 14px;
       }
 
-      /* هيدر الملف الشخصي (Profile Bar) */
-      .top-profile-bar {
-        background: #0d111b;
-        padding: 10px 25px;
+      /* الهيدر */
+      .top-nav {
+        background: #0a0d14;
+        padding: 10px 15px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 2px solid #1a1f2c;
+        border-bottom: 1px solid #1a1f2c;
         position: sticky;
         top: 0;
         z-index: 1000;
       }
-
-      .user-info {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-      }
-
-      .avatar {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        border: 2px solid var(--accent);
-        background: url("https://i.ibb.co/Vv9rS9Z/user-avatar.png") center/cover;
-      }
-
-      .user-details b {
-        display: block;
-        font-size: 16px;
+      .brand {
+        font-weight: 900;
         color: var(--accent);
-      }
-
-      .user-details span {
-        font-size: 12px;
-        color: #777;
-      }
-
-      .wallet-box {
-        background: #181d29;
-        padding: 8px 20px;
-        border-radius: 12px;
-        border: 1px solid #2a3245;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .wallet-box b {
-        color: var(--gold);
         font-size: 18px;
+        cursor: pointer;
       }
 
-      /* حاوية الألعاب */
-      .container {
-        flex: 1;
-        padding: 40px 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .section-title {
-        width: 100%;
-        max-width: 1100px;
-        margin-bottom: 30px;
-        border-right: 5px solid var(--accent);
-        padding-right: 15px;
-      }
-
+      /* الألعاب */
       .games-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 30px;
-        width: 100%;
-        max-width: 1100px;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        padding: 15px;
       }
-
-      /* كروت الألعاب المحدثة */
       .game-card {
         background: var(--card-bg);
-        border-radius: 25px;
+        border-radius: 15px;
         overflow: hidden;
-        border: 1px solid #1d2333;
-        transition: 0.4s;
-        cursor: pointer;
-        position: relative;
-      }
-
-      .game-card:hover {
-        transform: translateY(-10px);
-        border-color: var(--accent);
-        box-shadow: 0 15px 40px rgba(0, 255, 102, 0.1);
-      }
-
-      .game-img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        opacity: 0.8;
-        transition: 0.4s;
-      }
-
-      .game-card:hover .game-img {
-        opacity: 1;
-        transform: scale(1.05);
-      }
-
-      .game-desc {
-        padding: 20px;
+        border: 1px solid #21262d;
         text-align: center;
       }
+      .game-card img {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+      }
 
-      .play-btn {
-        background: var(--accent);
-        color: black;
-        border: none;
+      /* النوافذ (Modals) */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #0d1117;
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid var(--accent);
+        z-index: 3000;
+        width: 85%;
+        max-width: 350px;
+      }
+      .modal input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        background: #05070a;
+        border: 1px solid #222;
+        color: white;
+        border-radius: 8px;
+        box-sizing: border-box;
+      }
+      .btn-action {
         width: 100%;
         padding: 12px;
-        border-radius: 10px;
-        font-weight: 900;
-        font-size: 16px;
-        margin-top: 15px;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
         cursor: pointer;
+        margin-top: 10px;
+        font-family: "Cairo";
       }
 
-      .action-buttons {
-        margin-top: 40px;
-        display: flex;
-        gap: 15px;
+      /* القائمة الجانبية */
+      .side-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        height: 100%;
+        background: #0d1117;
+        z-index: 4000;
+        transition: 0.4s;
+        padding: 20px;
+        border-left: 1px solid var(--accent);
       }
-
-      .btn-secondary {
-        background: #1c2230;
-        color: white;
-        border: 1px solid #333;
-        padding: 10px 25px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-size: 14px;
-        transition: 0.3s;
+      .side-menu.active {
+        right: 0;
       }
-
-      .btn-secondary:hover {
-        background: var(--accent);
-        color: black;
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 2500;
+      }
+      .info-box {
+        background: #161b22;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        border: 1px solid #21262d;
+        font-size: 12px;
       }
     </style>
   </head>
   <body>
-    <div class="top-profile-bar">
-      <div class="user-info">
-        <div class="avatar"></div>
-        <div class="user-details">
-          <b id="userNameDisplay">ZEROKING</b>
-          <span>ID: #48293</span>
-        </div>
+    <div class="top-nav">
+      <div class="brand" id="adminTrigger">ZEROKING</div>
+      <div
+        onclick="toggleMenu(true)"
+        style="
+          cursor: pointer;
+          border: 1px solid var(--accent);
+          padding: 4px 10px;
+          border-radius: 15px;
+        "
+      >
+        👤 ملفي
       </div>
+    </div>
 
-      <div class="wallet-box">
-        <span>رصيدك:</span>
-        <b id="balanceDisplay">0.00</b>
-        <small style="color: var(--accent)">EGP</small>
+    <div class="games-grid">
+      <div class="game-card" onclick="location.href='crash.html'">
+        <img src="https://i.ibb.co/Vv9rS9Z/crash-thumb.png" />
+        <h4>CRASH AI</h4>
+      </div>
+      <div class="game-card" onclick="location.href='apple.html'">
+        <img src="https://i.ibb.co/Vv9rS9Z/apple-thumb.png" />
+        <h4>APPLE</h4>
       </div>
     </div>
 
-    <div class="container">
-      <div class="section-title">
-        <h2>الألعاب المتاحة</h2>
-      </div>
-
-      <div class="games-grid">
-        <div class="game-card" onclick="location.href='crash.html'">
-          <img
-            src="https://i.ibb.co/Vv9rS9Z/crash-banner.png"
-            class="game-img"
-          />
-          <div class="game-desc">
-            <h3>CRASH AI</h3>
-            <button class="play-btn">دخول اللعبة</button>
-          </div>
-        </div>
-
-        <div class="game-card" onclick="location.href='apple.html'">
-          <img
-            src="https://i.ibb.co/Vv9rS9Z/apple-banner.png"
-            class="game-img"
-          />
-          <div class="game-desc">
-            <h3>APPLE OF FORTUNE</h3>
-            <button class="play-btn">دخول اللعبة</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="action-buttons">
-        <a href="profile.html" class="btn-secondary">⚙️ إعدادات الحساب</a>
-        <a href="withdraw.html" class="btn-secondary">💰 سحب الأرباح</a>
-        <a href="deposit.html" class="btn-secondary">💳 إيداع</a>
-      </div>
+    <div style="display: flex; gap: 10px; padding: 15px">
+      <button
+        class="btn-action"
+        style="background: var(--accent); color: black"
+        onclick="openModal('deposit')"
+      >
+        💳 إيداع
+      </button>
+      <button
+        class="btn-action"
+        style="background: #1a1f2c; color: white"
+        onclick="openModal('withdraw')"
+      >
+        💰 سحب
+      </button>
     </div>
+
+    <div id="depositModal" class="modal">
+      <h3 style="margin: 0; color: var(--gold)">طلب إيداع</h3>
+      <p style="font-size: 11px; color: #888">
+        حول المبلغ لـ: <b style="color: white">01011294483</b>
+      </p>
+      <input type="number" id="depAmt" placeholder="المبلغ المراد إيداعه" />
+      <input
+        type="text"
+        id="depPhone"
+        placeholder="رقم الموبايل الذي حولت منه"
+      />
+      <button
+        class="btn-action"
+        style="background: var(--accent); color: black"
+        onclick="handleTransaction('deposit')"
+      >
+        تأكيد الإيداع
+      </button>
+      <button
+        onclick="closeModal()"
+        style="
+          background: none;
+          border: none;
+          color: #555;
+          width: 100%;
+          margin-top: 10px;
+        "
+      >
+        إلغاء
+      </button>
+    </div>
+
+    <div id="withdrawModal" class="modal">
+      <h3 style="margin: 0; color: var(--red)">طلب سحب</h3>
+      <input type="number" id="withAmt" placeholder="المبلغ المراد سحبه" />
+      <input
+        type="text"
+        id="withPhone"
+        placeholder="رقم الموبايل لاستلام الأموال"
+      />
+      <button
+        class="btn-action"
+        style="background: var(--red); color: white"
+        onclick="handleTransaction('withdraw')"
+      >
+        تأكيد السحب
+      </button>
+      <button
+        onclick="closeModal()"
+        style="
+          background: none;
+          border: none;
+          color: #555;
+          width: 100%;
+          margin-top: 10px;
+        "
+      >
+        إلغاء
+      </button>
+    </div>
+
+    <div id="sideMenu" class="side-menu">
+      <h3 style="text-align: center; color: var(--accent)">الملف الشخصي</h3>
+      <div class="info-box">الاسم: <b id="pName">--</b></div>
+      <div class="info-box">ID: <b id="pID">#0000</b></div>
+      <div class="info-box">
+        الرصيد: <b id="pBal" style="color: var(--gold)">0.00 EGP</b>
+      </div>
+      <button
+        class="btn-action"
+        style="background: var(--accent); color: black"
+        onclick="toggleMenu(false)"
+      >
+        الرجوع للرئيسية
+      </button>
+      <button
+        class="btn-action"
+        style="background: var(--red); color: white"
+        onclick="logout()"
+      >
+        خروج
+      </button>
+    </div>
+
+    <div
+      id="overlay"
+      class="overlay"
+      onclick="closeModal(); toggleMenu(false);"
+    ></div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
@@ -241,17 +282,92 @@
       };
       firebase.initializeApp(firebaseConfig);
       const db = firebase.database();
-      let user = localStorage.getItem("active_user");
+      let user = localStorage.getItem("active_user") || "guest";
+      let currentBalance = 0;
 
-      if (user) {
-        document.getElementById("userNameDisplay").innerText =
-          user.toUpperCase();
-        db.ref("users/" + user + "/balance").on("value", (s) => {
-          let bal = s.val() || 0;
-          document.getElementById("balanceDisplay").innerText = bal.toFixed(2);
+      // تحديث البيانات
+      db.ref("users/" + user).on("value", (s) => {
+        if (s.val()) {
+          currentBalance = s.val().balance || 0;
+          document.getElementById("pName").innerText = user.toUpperCase();
+          document.getElementById("pID").innerText =
+            "#" + (s.val().id || "7721");
+          document.getElementById("pBal").innerText =
+            currentBalance.toFixed(2) + " EGP";
+        }
+      });
+
+      // التعامل مع الإيداع والسحب
+      function handleTransaction(type) {
+        let amt = parseFloat(
+          document.getElementById(type === "deposit" ? "depAmt" : "withAmt")
+            .value
+        );
+        let phone = document.getElementById(
+          type === "deposit" ? "depPhone" : "withPhone"
+        ).value;
+
+        if (!amt || !phone) return alert("أكمل البيانات!");
+
+        if (type === "withdraw") {
+          if (amt > currentBalance) return alert("رصيدك لا يكفي!");
+          // خصم فوري من رصيد اللاعب عند السحب
+          db.ref("users/" + user + "/balance").set(currentBalance - amt);
+        }
+
+        // إرسال الطلب للإدمن
+        db.ref("admin_requests").push({
+          user: user,
+          type: type,
+          amount: amt,
+          phone: phone,
+          time: new Date().toLocaleString(),
+          status: "pending",
         });
-      } else {
-        location.href = "login.html"; // لو مش مسجل يرجعه للدخول
+
+        alert(
+          type === "deposit"
+            ? "تم إرسال طلب الإيداع.. انتظر المراجعة"
+            : "تم خصم المبلغ وإرسال طلب السحب"
+        );
+        closeModal();
+      }
+
+      // كود الإدمن السري
+      let clicks = 0;
+      document.getElementById("adminTrigger").onclick = () => {
+        clicks++;
+        if (clicks === 5) {
+          let pass = prompt("أدخل كلمة سر الإدمن:");
+          if (pass === "12345") {
+            location.href = "admin.html";
+          } else {
+            alert("كلمة سر خاطئة!");
+          }
+          clicks = 0;
+        }
+        setTimeout(() => (clicks = 0), 2000);
+      };
+
+      function openModal(id) {
+        document.getElementById(id + "Modal").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+      }
+      function closeModal() {
+        document
+          .querySelectorAll(".modal")
+          .forEach((m) => (m.style.display = "none"));
+        document.getElementById("overlay").style.display = "none";
+      }
+      function toggleMenu(show) {
+        document.getElementById("sideMenu").classList.toggle("active", show);
+        document.getElementById("overlay").style.display = show
+          ? "block"
+          : "none";
+      }
+      function logout() {
+        localStorage.removeItem("active_user");
+        location.href = "login.html";
       }
     </script>
   </body>
