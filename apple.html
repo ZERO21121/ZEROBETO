@@ -2,249 +2,186 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZEROKING | Apple of Fortune</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>APPLE GAME | CUSTOM</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --neon-green: #39ff14;
-        --neon-red: #ff3131;
+        --main: #05070a;
+        --accent: #00ff66;
         --gold: #ffdf00;
-        --bg-dark: #090c14;
-        --panel-bg: rgba(18, 23, 35, 0.95);
+        --red: #ff3131;
       }
 
       body {
-        background: var(--bg-dark);
+        background: var(--main);
+        color: white;
+        font-family: "Cairo", sans-serif;
         margin: 0;
+        padding: 5px;
         display: flex;
         justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        font-family: "Cairo", sans-serif;
-        color: white;
-        overflow: hidden;
       }
 
-      /* خلفية الشخصية - الهوية البصرية لـ ZEROKING */
-      .character-bg {
-        position: absolute;
-        right: -50px;
-        bottom: 0;
-        width: 500px;
-        height: 95%;
-        background: url("https://w0.peakpx.com/wallpaper/403/947/HD-wallpaper-anime-girl-eating-apple-art-anime-girl-apple.jpg")
-          no-repeat bottom center;
-        background-size: contain;
-        animation: breathe 4s infinite ease-in-out;
-        z-index: 1;
-        opacity: 0.3;
-        pointer-events: none;
+      .game-container {
+        width: 100%;
+        max-width: 340px;
+        background: #0d1117;
+        border-radius: 12px;
+        padding: 8px;
+        border: 1px solid #1a1f2c;
+        box-sizing: border-box;
       }
 
-      @keyframes breathe {
-        0%,
-        100% {
-          transform: scale(1);
-          filter: drop-shadow(0 0 5px var(--gold));
-        }
-        50% {
-          transform: scale(1.05);
-          filter: drop-shadow(0 0 30px var(--neon-green));
-        }
+      .top-stats {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        background: #161b22;
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 11px;
       }
-
-      .main-container {
-        position: relative;
-        z-index: 10;
-        background: var(--panel-bg);
-        padding: 20px;
-        border-radius: 25px;
-        border: 2px solid #1d2333;
-        width: 400px;
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
-      }
-
-      .stats-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-bottom: 15px;
-      }
-
-      .stat-card {
-        background: #0d111b;
-        padding: 10px;
-        border-radius: 15px;
-        text-align: center;
-        border: 1px solid #2a3245;
-      }
-
-      .stat-card span {
-        font-size: 12px;
-        color: #777;
-        display: block;
-      }
-      .stat-card b {
-        font-size: 18px;
+      .top-stats b {
         color: var(--gold);
+        font-size: 13px;
       }
 
-      /* الشبكة - كبرنا المساحة */
       .board {
         display: flex;
         flex-direction: column;
-        gap: 5px;
+        gap: 2px;
       }
+
       .row {
         display: grid;
-        grid-template-columns: repeat(5, 1fr) 70px;
-        gap: 5px;
-        opacity: 0.2;
+        grid-template-columns: repeat(5, 1fr) 45px;
+        gap: 3px;
+        opacity: 0.3;
         pointer-events: none;
-        transition: 0.3s;
       }
       .row.active {
         opacity: 1;
         pointer-events: auto;
-        transform: scale(1.02);
       }
 
       .cell {
         aspect-ratio: 1/1;
         background: #1c2230;
-        border-radius: 10px;
-        cursor: pointer;
+        border-radius: 5px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 24px;
-        border-bottom: 3px solid #000;
-        transition: 0.2s;
+        border-bottom: 2px solid #000;
+        position: relative;
+        overflow: hidden;
       }
-      .cell:hover {
-        background: #252d3d;
-        transform: translateY(-2px);
-      }
-      .cell.win {
-        background: var(--neon-green) !important;
-        color: black;
-        box-shadow: 0 0 20px var(--neon-green);
-      }
-      .cell.lose {
-        background: var(--neon-red) !important;
-        box-shadow: 0 0 20px var(--neon-red);
+
+      .apple-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
       .mult {
-        background: #0d111b;
+        font-size: 9px;
         color: var(--gold);
+        font-weight: 900;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: 900;
-        font-size: 12px;
-        border-radius: 8px;
-        border: 1px solid #2a3245;
+        background: #0a0d14;
+        border-radius: 4px;
       }
 
-      .bet-controls {
-        margin-top: 15px;
-        background: #0d111b;
-        padding: 15px;
-        border-radius: 20px;
+      .bet-area {
+        margin-top: 8px;
+        background: #161b22;
+        padding: 8px;
+        border-radius: 10px;
       }
-
-      .input-group {
-        display: flex;
-        background: #181d29;
-        border-radius: 12px;
+      .quick-bets {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+        margin-bottom: 8px;
+      }
+      .q-btn {
+        background: #252d3d;
+        border: 1px solid #333;
+        color: white;
         padding: 5px;
-        margin-bottom: 10px;
-        border: 1px solid #2a3245;
+        border-radius: 4px;
+        font-size: 11px;
+        cursor: pointer;
       }
 
       input {
-        flex: 1;
-        background: transparent;
-        border: none;
-        color: var(--neon-green);
+        width: 100%;
+        background: #05070a;
+        border: 1px solid #333;
+        color: var(--accent);
         text-align: center;
-        font-size: 22px;
-        font-weight: 900;
-        outline: none;
+        padding: 8px;
+        border-radius: 5px;
+        margin-bottom: 8px;
+        box-sizing: border-box;
+        font-size: 16px;
         font-family: "Cairo";
       }
 
-      .btn-row {
+      .btns {
         display: flex;
-        gap: 10px;
+        gap: 5px;
       }
-      .btn-action {
-        flex: 2;
-        padding: 12px;
-        border-radius: 12px;
+      .btn {
+        flex: 1;
+        padding: 10px;
+        border-radius: 6px;
         border: none;
-        font-weight: 900;
-        font-size: 18px;
-        cursor: pointer;
-        transition: 0.2s;
         font-family: "Cairo";
+        font-weight: 900;
+        cursor: pointer;
       }
-      .btn-play {
-        background: var(--accent, #f68b1e);
-        color: white;
-        box-shadow: 0 4px 0 #b36211;
+      .btn-start {
+        background: var(--accent);
+        color: black;
       }
-      .btn-cashout {
+      .btn-cash {
         background: var(--gold);
         color: black;
         display: none;
-        box-shadow: 0 4px 0 #c4a700;
-      }
-      .btn-action:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
       }
     </style>
   </head>
   <body>
-    <div class="character-bg"></div>
-
-    <div class="main-container">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <span>رصيدك</span>
-          <b id="balDisplay">0.00</b>
-        </div>
-        <div class="stat-card">
-          <span>الربح</span>
-          <b id="profitDisplay">0.00</b>
-        </div>
+    <div class="game-container">
+      <div class="top-stats">
+        <div>الرصيد: <b id="bal">0.00</b></div>
+        <div>الربح المتوقع: <b id="profit">0.00</b></div>
       </div>
 
-      <div class="board" id="gameBoard"></div>
+      <div class="board" id="board"></div>
 
-      <div class="bet-controls">
-        <div class="input-group">
-          <input type="number" id="betInput" value="100" />
+      <div class="bet-area">
+        <div class="quick-bets">
+          <button class="q-btn" onclick="setBet(10)">10</button>
+          <button class="q-btn" onclick="setBet(20)">20</button>
+          <button class="q-btn" onclick="setBet(50)">50</button>
+          <button class="q-btn" onclick="setBet(100)">100</button>
         </div>
-        <div class="btn-row">
-          <button
-            class="btn-action btn-play"
-            id="startBtn"
-            onclick="startGame()"
-          >
-            رهان جديد
+        <input type="number" id="bet" value="100" />
+        <div class="btns">
+          <button class="btn btn-start" id="sBtn" onclick="start()">
+            إبدأ اللعب
           </button>
-          <button
-            class="btn-action btn-cashout"
-            id="cashBtn"
-            onclick="cashOut()"
-          >
+          <button class="btn btn-cash" id="cBtn" onclick="cashOut()">
             سحب الأرباح
           </button>
         </div>
@@ -255,7 +192,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
     <script>
-      // إعدادات Firebase الخاصة بك
       const firebaseConfig = {
         apiKey: "AIzaSyDSZmFVNSOy9dnrE6RJk1-8eOloncTmjWg",
         databaseURL:
@@ -268,101 +204,100 @@
 
       let user = localStorage.getItem("active_user"),
         balance = 0,
-        currentBet = 0,
-        curRow = 9,
-        gameActive = false;
+        bet = 0,
+        row = 9,
+        active = false;
+      const odds = [121.2, 69.9, 27.9, 11.1, 6.7, 4.0, 2.4, 1.9, 1.5, 1.2];
 
-      const odds = [
-        349.68, 69.93, 27.97, 11.18, 6.71, 4.02, 2.41, 1.93, 1.54, 1.23,
-      ];
+      // روابط الصور بعد التبديل
+      const imgApple =
+        "https://i.ibb.co/zhv73DBr/Whats-App-Image-2026-05-15-at-8-41-23-AM.jpg"; // السليمة (الزرع)
+      const imgBad =
+        "https://i.ibb.co/yck64hHb/Whats-App-Image-2026-05-15-at-8-41-21-AM.jpg"; // البايظة (الفواكه)
 
-      // مزامنة الرصيد فورياً
       db.ref("users/" + user + "/balance").on("value", (s) => {
         balance = s.val() || 0;
-        document.getElementById("balDisplay").innerText = balance.toFixed(2);
+        document.getElementById("bal").innerText = balance.toFixed(2);
       });
 
-      function buildBoard() {
-        const board = document.getElementById("gameBoard");
-        board.innerHTML = "";
-        odds.forEach((m, i) => {
-          const row = document.createElement("div");
-          row.className = `row ${i === curRow && gameActive ? "active" : ""}`;
+      function setBet(val) {
+        document.getElementById("bet").value = val;
+      }
+
+      function createBoard() {
+        const b = document.getElementById("board");
+        b.innerHTML = "";
+        odds.forEach((o, i) => {
+          const r = document.createElement("div");
+          r.className = `row ${i === row && active ? "active" : ""}`;
           for (let j = 0; j < 5; j++) {
-            const cell = document.createElement("div");
-            cell.className = "cell";
-            cell.onclick = () => playCell(i, j, cell);
-            row.appendChild(cell);
+            const c = document.createElement("div");
+            c.className = "cell";
+            c.onclick = () => play(i, j, c);
+            r.appendChild(c);
           }
-          const mLabel = document.createElement("div");
-          mLabel.className = "mult";
-          mLabel.innerText = "x" + m;
-          row.appendChild(mLabel);
-          board.appendChild(row);
+          const m = document.createElement("div");
+          m.className = "mult";
+          m.innerText = "x" + o;
+          r.appendChild(m);
+          b.appendChild(r);
         });
       }
 
-      function startGame() {
-        let val = parseFloat(document.getElementById("betInput").value);
-        if (val > balance || val < 10) return alert("خطأ في الرصيد!");
-
-        db.ref("users/" + user + "/balance")
-          .set(balance - val)
-          .then(() => {
-            currentBet = val;
-            gameActive = true;
-            curRow = 9;
-            document.getElementById("startBtn").disabled = true;
-            document.getElementById("cashBtn").style.display = "none";
-            buildBoard();
-          });
+      function start() {
+        let v = parseFloat(document.getElementById("bet").value);
+        if (v > balance || v < 10) return alert("تأكد من الرصيد!");
+        db.ref("users/" + user + "/balance").set(balance - v);
+        bet = v;
+        active = true;
+        row = 9;
+        document.getElementById("sBtn").disabled = true;
+        createBoard();
       }
 
-      function playCell(r, c, el) {
-        if (!gameActive || r !== curRow) return;
-
-        // سيستم الخسارة (أصعب كل ما تطلع فوق)
-        let loseChance = (9 - r) * 0.12 + 0.15;
-        if (Math.random() < loseChance) {
-          el.innerHTML = "💀";
-          el.classList.add("lose");
-          endGame(false);
+      function play(r, c, el) {
+        if (!active || r !== row) return;
+        if (Math.random() < 0.2) {
+          // نسبة خسارة
+          el.innerHTML = `<img src="${imgBad}" class="apple-img">`;
+          el.style.backgroundColor = "#440000";
+          active = false;
+          setTimeout(() => {
+            alert("حظ أوفر!");
+            reset();
+          }, 500);
         } else {
-          el.innerHTML = "🍎";
-          el.classList.add("win");
-          let p = currentBet * odds[curRow];
-          document.getElementById("profitDisplay").innerText = p.toFixed(2);
-          document.getElementById("cashBtn").style.display = "block";
-          if (curRow === 0) cashOut();
-          else moveUp();
+          el.innerHTML = `<img src="${imgApple}" class="apple-img">`;
+          el.style.backgroundColor = "#004400";
+          document.getElementById("profit").innerText = (
+            bet * odds[row]
+          ).toFixed(2);
+          document.getElementById("cBtn").style.display = "block";
+          if (row === 0) cashOut();
+          else {
+            row--;
+            createBoard();
+          }
         }
       }
 
-      function moveUp() {
-        curRow--;
-        buildBoard();
-      }
-
       function cashOut() {
-        let win = currentBet * odds[curRow];
-        db.ref("users/" + user + "/balance")
-          .transaction((c) => (c || 0) + win)
-          .then(() => {
-            alert(`مبروك يا كينج! كسبت ${win.toFixed(2)}`);
-            endGame(true);
-          });
+        let win = bet * odds[row];
+        db.ref("users/" + user + "/balance").set(balance + win);
+        alert("مبروك! ربحت " + win.toFixed(2));
+        reset();
       }
 
-      function endGame(won) {
-        gameActive = false;
-        document.getElementById("startBtn").disabled = false;
-        document.getElementById("cashBtn").style.display = "none";
-        document.getElementById("profitDisplay").innerText = "0.00";
-        if (!won) alert("حظ أوفر المرة القادمة!");
-        setTimeout(buildBoard, 2000);
+      function reset() {
+        active = false;
+        row = 9;
+        document.getElementById("sBtn").disabled = false;
+        document.getElementById("cBtn").style.display = "none";
+        document.getElementById("profit").innerText = "0.00";
+        createBoard();
       }
 
-      buildBoard();
+      createBoard();
     </script>
   </body>
 </html>
