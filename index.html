@@ -3,208 +3,229 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZEROKING | الرئيسية</title>
+    <title>ZEROKING PLATFORM | DASHBOARD</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --neon: #00ff66;
-        --bg: #05080b;
-        --card-bg: #1a1f26;
+        --main-bg: #090c14;
+        --card-bg: #121723;
+        --accent: #00ff66;
+        --gold: #ffd700;
+        --sidebar-w: 250px;
       }
+
       body {
-        background: var(--bg);
+        background: var(--main-bg);
         color: white;
         font-family: "Cairo", sans-serif;
         margin: 0;
-        padding-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
       }
 
-      /* الهيدر */
-      .header {
-        background: #0d1117;
-        padding: 15px 5%;
+      /* هيدر الملف الشخصي (Profile Bar) */
+      .top-profile-bar {
+        background: #0d111b;
+        padding: 10px 25px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 2px solid var(--neon);
+        border-bottom: 2px solid #1a1f2c;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
       }
-      .logo {
-        color: var(--neon);
-        font-weight: 900;
-        font-size: 24px;
-        text-shadow: 0 0 10px var(--neon);
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
       }
-      .balance {
-        color: #f1c40f;
-        font-weight: bold;
+
+      .avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 2px solid var(--accent);
+        background: url("https://i.ibb.co/Vv9rS9Z/user-avatar.png") center/cover;
+      }
+
+      .user-details b {
+        display: block;
+        font-size: 16px;
+        color: var(--accent);
+      }
+
+      .user-details span {
+        font-size: 12px;
+        color: #777;
+      }
+
+      .wallet-box {
+        background: #181d29;
+        padding: 8px 20px;
+        border-radius: 12px;
+        border: 1px solid #2a3245;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .wallet-box b {
+        color: var(--gold);
         font-size: 18px;
       }
 
-      /* منطقة الأزرار العلوي */
-      .nav-buttons {
+      /* حاوية الألعاب */
+      .container {
+        flex: 1;
+        padding: 40px 20px;
         display: flex;
-        justify-content: center;
-        gap: 10px;
-        padding: 20px;
-        flex-wrap: wrap;
-      }
-      .btn {
-        padding: 12px 25px;
-        border-radius: 12px;
-        border: none;
-        font-weight: bold;
-        font-family: "Cairo";
-        cursor: pointer;
-        display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 8px;
-        transition: 0.3s;
-      }
-      .btn-dep {
-        background: var(--neon);
-        color: #000;
-      }
-      .btn-with {
-        background: #1a1f26;
-        color: white;
-        border: 1px solid #333;
-      }
-      .btn-prof {
-        background: #333;
-        color: white;
       }
 
-      /* قسم الألعاب */
-      .games-section {
-        padding: 20px;
-        text-align: center;
-      }
       .section-title {
-        color: var(--neon);
-        margin-bottom: 20px;
-        font-size: 20px;
-        border-right: 4px solid var(--neon);
-        padding-right: 10px;
-        display: inline-block;
+        width: 100%;
+        max-width: 1100px;
+        margin-bottom: 30px;
+        border-right: 5px solid var(--accent);
+        padding-right: 15px;
       }
 
       .games-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 20px;
-        max-width: 800px;
-        margin: 0 auto;
-      }
-      .game-card {
-        background: var(--card-bg);
-        border-radius: 20px;
-        overflow: hidden;
-        border: 1px solid #333;
-        cursor: pointer;
-        transition: 0.3s;
-        position: relative;
-      }
-      .game-card:hover {
-        transform: translateY(-5px);
-        border-color: var(--neon);
-      }
-      .game-card img {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
         width: 100%;
-        height: 120px;
-        object-fit: cover;
-      }
-      .game-info {
-        padding: 10px;
-        font-weight: bold;
-        font-size: 14px;
-        background: rgba(0, 0, 0, 0.5);
+        max-width: 1100px;
       }
 
-      /* المودال */
-      .modal {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 1000;
-        backdrop-filter: blur(5px);
+      /* كروت الألعاب المحدثة */
+      .game-card {
+        background: var(--card-bg);
+        border-radius: 25px;
+        overflow: hidden;
+        border: 1px solid #1d2333;
+        transition: 0.4s;
+        cursor: pointer;
+        position: relative;
       }
-      .modal-content {
-        background: #161b22;
-        width: 90%;
-        max-width: 400px;
-        margin: 50px auto;
-        border-radius: 20px;
-        border: 1px solid var(--neon);
+
+      .game-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--accent);
+        box-shadow: 0 15px 40px rgba(0, 255, 102, 0.1);
+      }
+
+      .game-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        opacity: 0.8;
+        transition: 0.4s;
+      }
+
+      .game-card:hover .game-img {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      .game-desc {
         padding: 20px;
         text-align: center;
       }
-      input {
+
+      .play-btn {
+        background: var(--accent);
+        color: black;
+        border: none;
         width: 100%;
         padding: 12px;
-        margin: 10px 0;
         border-radius: 10px;
-        border: 1px solid #333;
-        background: #000;
+        font-weight: 900;
+        font-size: 16px;
+        margin-top: 15px;
+        cursor: pointer;
+      }
+
+      .action-buttons {
+        margin-top: 40px;
+        display: flex;
+        gap: 15px;
+      }
+
+      .btn-secondary {
+        background: #1c2230;
         color: white;
-        text-align: center;
-        box-sizing: border-box;
-        font-family: "Cairo";
+        border: 1px solid #333;
+        padding: 10px 25px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.3s;
+      }
+
+      .btn-secondary:hover {
+        background: var(--accent);
+        color: black;
       }
     </style>
   </head>
   <body>
-    <header class="header">
-      <div id="uBal" class="balance">0.00 ج.م</div>
-      <div class="logo" onclick="checkAdmin()">ZEROKING</div>
-    </header>
-
-    <div class="nav-buttons">
-      <button class="btn btn-dep" onclick="openM('depModal')">إيداع 💰</button>
-      <button class="btn btn-with" onclick="openM('withModal')">سحب 💸</button>
-      <button
-        class="btn btn-prof"
-        onclick="window.location.href='profile.html'"
-      >
-        👤 الملف الشخصي
-      </button>
-    </div>
-
-    <div class="games-section">
-      <h2 class="section-title">الألعاب المتاحة 🎮</h2>
-      <div class="games-grid">
-        <div class="game-card" onclick="window.location.href='crash.html'">
-          <img src="https://i.ibb.co/hM4P7zB/crash.png" alt="Crash Game" />
-          <div class="game-info">طيارة الحظ (Crash) ✈️</div>
+    <div class="top-profile-bar">
+      <div class="user-info">
+        <div class="avatar"></div>
+        <div class="user-details">
+          <b id="userNameDisplay">ZEROKING</b>
+          <span>ID: #48293</span>
         </div>
       </div>
-    </div>
 
-    <div id="depModal" class="modal">
-      <div class="modal-content">
-        <h3>إيداع رصيد</h3>
-        <input type="number" id="dAm" placeholder="المبلغ" /><button
-          class="btn btn-dep"
-          style="width: 100%"
-          onclick="alert('تم ارسال الطلب')"
-        >
-          تأكيد</button
-        ><button onclick="closeM('depModal')">إلغاء</button>
+      <div class="wallet-box">
+        <span>رصيدك:</span>
+        <b id="balanceDisplay">0.00</b>
+        <small style="color: var(--accent)">EGP</small>
       </div>
     </div>
-    <div id="withModal" class="modal">
-      <div class="modal-content">
-        <h3>سحب أرباح</h3>
-        <input type="number" id="wAm" placeholder="المبلغ" /><button
-          class="btn btn-dep"
-          style="width: 100%"
-          onclick="alert('تم ارسال الطلب')"
-        >
-          تأكيد</button
-        ><button onclick="closeM('withModal')">إلغاء</button>
+
+    <div class="container">
+      <div class="section-title">
+        <h2>الألعاب المتاحة</h2>
+      </div>
+
+      <div class="games-grid">
+        <div class="game-card" onclick="location.href='crash.html'">
+          <img
+            src="https://i.ibb.co/Vv9rS9Z/crash-banner.png"
+            class="game-img"
+          />
+          <div class="game-desc">
+            <h3>CRASH AI</h3>
+            <button class="play-btn">دخول اللعبة</button>
+          </div>
+        </div>
+
+        <div class="game-card" onclick="location.href='apple.html'">
+          <img
+            src="https://i.ibb.co/Vv9rS9Z/apple-banner.png"
+            class="game-img"
+          />
+          <div class="game-desc">
+            <h3>APPLE OF FORTUNE</h3>
+            <button class="play-btn">دخول اللعبة</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <a href="profile.html" class="btn-secondary">⚙️ إعدادات الحساب</a>
+        <a href="withdraw.html" class="btn-secondary">💰 سحب الأرباح</a>
+        <a href="deposit.html" class="btn-secondary">💳 إيداع</a>
       </div>
     </div>
 
@@ -222,28 +243,15 @@
       const db = firebase.database();
       let user = localStorage.getItem("active_user");
 
-      if (!user) window.location.href = "login.html";
-
-      // تحديث الرصيد لحظياً من السيرفر
-      db.ref("users/" + user + "/balance").on("value", (s) => {
-        document.getElementById("uBal").innerText =
-          (s.val() || 0).toFixed(2) + " ج.م";
-      });
-
-      function openM(id) {
-        document.getElementById(id).style.display = "block";
-      }
-      function closeM(id) {
-        document.getElementById(id).style.display = "none";
-      }
-
-      let clks = 0;
-      function checkAdmin() {
-        clks++;
-        if (clks >= 5) {
-          if (prompt("Pass:") === "12345") window.location.href = "admin.html";
-          clks = 0;
-        }
+      if (user) {
+        document.getElementById("userNameDisplay").innerText =
+          user.toUpperCase();
+        db.ref("users/" + user + "/balance").on("value", (s) => {
+          let bal = s.val() || 0;
+          document.getElementById("balanceDisplay").innerText = bal.toFixed(2);
+        });
+      } else {
+        location.href = "login.html"; // لو مش مسجل يرجعه للدخول
       }
     </script>
   </body>
