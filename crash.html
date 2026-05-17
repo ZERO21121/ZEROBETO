@@ -4,13 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>1ILLONBET | 3D CRASH PRO MAX</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght=700;900&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
     <style>
       :root {
         --neon: #ffdf00;
         --bg: #05080b;
         --accent: #f1c40f;
         --danger: #ff4d4d;
+        --success: #00ff66;
       }
       body {
         background: var(--bg);
@@ -20,6 +24,7 @@
         overflow: hidden;
         height: 100vh;
       }
+
       .game-header {
         background: rgba(13, 17, 23, 0.95);
         padding: 15px 25px;
@@ -31,6 +36,7 @@
         position: relative;
         z-index: 100;
       }
+
       #game-area {
         position: relative;
         width: 100%;
@@ -42,17 +48,23 @@
         justify-content: center;
         align-items: center;
       }
+
       .grid-bg {
         position: absolute;
         width: 200%;
         height: 200%;
         top: -50%;
         left: -50%;
-        background-image: linear-gradient(rgba(255, 223, 0, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 223, 0, 0.05) 1px, transparent 1px);
+        background-image: linear-gradient(
+            rgba(255, 223, 0, 0.05) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(255, 223, 0, 0.05) 1px, transparent 1px);
         background-size: 60px 60px;
         transform: rotateX(70deg);
         z-index: 1;
       }
+
       .multiplier {
         font-size: 110px;
         font-weight: 900;
@@ -61,16 +73,18 @@
         z-index: 5;
         transition: color 0.2s, transform 0.2s;
       }
+
       .plane-container {
         position: absolute;
         bottom: 15%;
-        left: 10%;
-        width: 120px;
+        left: 10%; /* العودة للشكل الأصلي */
+        width: 120px; /* الحجم الأصلي */
         height: 120px;
         z-index: 10;
         transition: transform 0.05s linear;
         transform-style: preserve-3d;
       }
+
       .plane-container img {
         width: 100%;
         height: 100%;
@@ -80,22 +94,53 @@
         box-shadow: 0 0 25px var(--neon);
         transition: opacity 0.2s;
       }
+
+      /* العداد الملتصق بالطائرة من الأعلى بجانبها */
+      .plane-mult {
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.85);
+        color: var(--success);
+        padding: 5px 12px;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 900;
+        border: 1.5px solid var(--success);
+        box-shadow: 0 0 15px var(--success);
+        white-space: nowrap;
+        display: none;
+        z-index: 12;
+      }
+
+      /* شريط أصفر ورا الطيارة الأصلي (3D Trail) */
       .plane-trail {
         position: absolute;
         width: 150px;
         height: 20px;
-        background: linear-gradient(to right, transparent, rgba(255, 223, 0, 0.7));
+        background: linear-gradient(
+          to right,
+          transparent,
+          rgba(255, 223, 0, 0.7)
+        );
         border-radius: 50%;
         transform: translate3d(-130px, 50px, -10px) rotateY(10deg);
         filter: blur(5px);
         z-index: 9;
         display: none;
       }
+
+      /* أنيميشن الانفجار الاصلي */
       .explosion {
         position: absolute;
         width: 100%;
         height: 100%;
-        background: radial-gradient(circle, rgba(255, 77, 77, 0.9) 0%, transparent 70%);
+        background: radial-gradient(
+          circle,
+          rgba(255, 77, 77, 0.9) 0%,
+          transparent 70%
+        );
         opacity: 0;
         transition: opacity 0.2s;
         z-index: 11;
@@ -110,9 +155,19 @@
         transform: scale(0);
         transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
       }
-      .crashed .explosion { opacity: 1; }
-      .crashed .explosion-icon { transform: scale(1); }
-      .crashed .plane-container img { opacity: 0; }
+      .crashed .explosion {
+        opacity: 1;
+      }
+      .crashed .explosion-icon {
+        transform: scale(1);
+      }
+      .crashed .plane-container img {
+        opacity: 0;
+      }
+      .crashed .plane-mult {
+        display: none !important;
+      }
+
       .status-bar {
         position: absolute;
         top: 5%;
@@ -123,6 +178,7 @@
         font-size: 22px;
         z-index: 20;
       }
+
       .controls {
         padding: 20px;
         background: #0d1117;
@@ -134,6 +190,7 @@
         border-top: 2px solid #1e293b;
         z-index: 110;
       }
+
       .bet-input {
         width: 100%;
         padding: 15px;
@@ -147,6 +204,7 @@
         font-family: "Cairo";
         outline: none;
       }
+
       .btn {
         width: 100%;
         padding: 18px;
@@ -158,39 +216,73 @@
         font-family: "Cairo";
         transition: 0.2s;
       }
-      .btn-bet { background: var(--neon); color: #000; }
-      .btn-cash { background: #00ff66; color: #000; }
-      .btn-waiting { background: #1a1f26; color: #555; cursor: not-allowed; }
-      .crashed .multiplier { color: var(--danger) !important; animation: shake 0.1s infinite; transform: scale(1.1); }
+      .btn-bet {
+        background: var(--neon);
+        color: #000;
+      }
+      .btn-cash {
+        background: #00ff66;
+        color: #000;
+      }
+      .btn-waiting {
+        background: #1a1f26;
+        color: #555;
+        cursor: not-allowed;
+      }
+
+      .crashed .multiplier {
+        color: var(--danger) !important;
+        animation: shake 0.1s infinite;
+        transform: scale(1.1);
+      }
       @keyframes shake {
-        0% { transform: translate(3px, 3px); }
-        50% { transform: translate(-3px, -3px); }
-        100% { transform: translate(3px, 3px); }
+        0% {
+          transform: translate(3px, 3px);
+        }
+        50% {
+          transform: translate(-3px, -3px);
+        }
+        100% {
+          transform: translate(3px, 3px);
+        }
       }
     </style>
   </head>
   <body>
     <div class="game-header">
       <div id="uBal" style="color: var(--accent)">0.00 ج.م</div>
-      <div style="color: var(--neon); font-weight: 900">1ILLONBET CRASH ELITE</div>
+      <div style="color: var(--neon); font-weight: 900">
+        1ILLONBET CRASH ELITE
+      </div>
     </div>
 
     <div id="game-area">
       <div class="grid-bg" id="grid"></div>
       <div class="status-bar" id="gameStatus">جاري التحميل...</div>
       <div class="multiplier" id="multDisplay">1.00x</div>
+
       <div class="plane-container" id="plane">
         <div class="plane-trail" id="planeTrail"></div>
+        <!-- العداد بجانب الطائرة المضاف حديثاً -->
+        <div class="plane-mult" id="planeMult">1.00x</div>
         <img src="https://i.ibb.co/MDRS9hjc/images.jpg" alt="Aviator" />
       </div>
+
       <div class="explosion" id="explosionArea">
         <div class="explosion-icon">💥</div>
       </div>
     </div>
 
     <div class="controls">
-      <input type="number" id="betAmount" class="bet-input" placeholder="أدخل مبلغ الرهان" />
-      <button id="mainBtn" class="btn btn-bet" onclick="handleBet()">ابدأ الرحلة 🚀</button>
+      <input
+        type="number"
+        id="betAmount"
+        class="bet-input"
+        placeholder="أدخل مبلغ الرهان"
+      />
+      <button id="mainBtn" class="btn btn-bet" onclick="handleBet()">
+        ابدأ الرحلة 🚀
+      </button>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
@@ -198,7 +290,8 @@
     <script>
       const firebaseConfig = {
         apiKey: "AIzaSyDSZmFVNSOy9dnrE6RJk1-8eOloncTmjWg",
-        databaseURL: "https://zero-aaaca-default-rtdb.asia-southeast1.firebasedatabase.app/",
+        databaseURL:
+          "https://zero-aaaca-default-rtdb.asia-southeast1.firebasedatabase.app/",
         projectId: "zero-aaaca",
         appId: "1:866040129447:web:572b5f402d48885e67f882",
       };
@@ -211,7 +304,6 @@
       let hasCashedOut = false;
       let currentMultiplier = 1.0;
       let gameState = "waiting";
-      let globalCrashPoint = 1.0;
 
       db.ref("users/" + user + "/balance").on("value", (s) => {
         balance = s.val() || 0;
@@ -221,33 +313,23 @@
       function startSystem() {
         gameState = "waiting";
         let countdown = 5;
-        isBetting = false;
         hasCashedOut = false;
         document.getElementById("game-area").classList.remove("crashed");
         document.getElementById("multDisplay").classList.remove("crashed");
-        document.getElementById("plane").style.transform = `translate(0,0)`;
+        document.getElementById("plane").style.transform = `translate(0,0) `;
         document.getElementById("planeTrail").style.display = "none";
+        document.getElementById("planeMult").style.display = "none";
         document.getElementById("multDisplay").innerText = "1.00x";
         document.getElementById("multDisplay").style.color = "var(--neon)";
 
-        let chance = Math.random() * 100;
-        if (chance < 70) {
-          globalCrashPoint = parseFloat((Math.random() * 0.89 + 1.01).toFixed(2));
-        } else {
-          globalCrashPoint = parseFloat((Math.random() * 35.0 + 5.0).toFixed(2));
+        if (!isBetting) {
+          resetButton(); // يفتح الزر للرهان فقط في فترة الـ 5 ثواني
         }
 
         let timer = setInterval(() => {
-          document.getElementById("gameStatus").innerText = `الجولة تبدأ خلال ${countdown}`;
-          
-          // 🔥 أول ما يوصل 3 ثواني نرفع التوقع فوراً للسيرفر
-          if (countdown === 3) {
-             db.ref("currentRound").set({
-                status: "WAITING_3_SEC",
-                predictedMultiplier: globalCrashPoint
-             });
-          }
-
+          document.getElementById(
+            "gameStatus"
+          ).innerText = `الجولة تبدأ خلال ${countdown}`;
           countdown--;
           if (countdown < 0) {
             clearInterval(timer);
@@ -261,22 +343,48 @@
         currentMultiplier = 1.0;
         document.getElementById("gameStatus").innerText = "الطيارة في الجو! 🚀";
         document.getElementById("planeTrail").style.display = "block";
-        if (isBetting) setButtonToCashOut();
+        document.getElementById("planeMult").style.display = "block"; // إظهار العائد بجانب الطائرة
 
-        db.ref("currentRound/status").set("FLYING");
+        if (isBetting) {
+          setButtonToCashOut();
+        } else {
+          // منع الدخول نهائياً وقفل الزر إذا لم يكن مراهناً والجولة بدأت
+          setButtonToDisabled();
+        }
+
+        let chance = Math.random() * 100;
+        let crashPoint;
+        if (chance < 70) {
+          crashPoint = (Math.random() * 0.89 + 1.01).toFixed(2);
+        } else {
+          crashPoint = (Math.random() * 35.0 + 5.0).toFixed(2);
+        }
 
         let flight = setInterval(() => {
           let increment = currentMultiplier < 5 ? 0.02 : 0.05;
           currentMultiplier += increment;
-          document.getElementById("multDisplay").innerText = currentMultiplier.toFixed(2) + "x";
+
+          let formattedText = currentMultiplier.toFixed(2) + "x";
+          document.getElementById("multDisplay").innerText = formattedText;
+          document.getElementById("planeMult").innerText = formattedText; // تحديث الرقم بجانب الطائرة
 
           if (isBetting && !hasCashedOut) updateProfitOnButton();
 
-          let x = Math.min((currentMultiplier - 1) * 60, window.innerWidth * 0.7);
-          let y = Math.max((currentMultiplier - 1) * -50, -window.innerHeight * 0.5);
-          document.getElementById("plane").style.transform = `translate(${x}px, ${y}px) rotateX(10deg) rotateY(10deg) rotateZ(${-15}deg)`;
+          // نفس معادلة وشكل حركة الطيران الأصلية الخاصة بك (من اليسار لليمين)
+          let x = Math.min(
+            (currentMultiplier - 1) * 60,
+            window.innerWidth * 0.7
+          );
+          let y = Math.max(
+            (currentMultiplier - 1) * -50,
+            -window.innerHeight * 0.5
+          );
 
-          if (currentMultiplier >= globalCrashPoint) {
+          document.getElementById(
+            "plane"
+          ).style.transform = `translate(${x}px, ${y}px) rotateX(10deg) rotateY(10deg) rotateZ(${-15}deg)`;
+
+          if (currentMultiplier >= crashPoint) {
             clearInterval(flight);
             handleCrash();
           }
@@ -289,26 +397,31 @@
         document.getElementById("game-area").classList.add("crashed");
         document.getElementById("multDisplay").classList.add("crashed");
         document.getElementById("planeTrail").style.display = "none";
-        
-        // 💥 عند الانفجار نصفر الحالة فوراً
-        db.ref("currentRound").set({
-            status: "CRASHED",
-            predictedMultiplier: 0
-        });
+        document.getElementById("planeMult").style.display = "none";
 
-        resetButton();
+        isBetting = false;
+        setButtonToDisabled(); // الحفاظ على قفل الزر حتى بدء الجولة الجديدة تماماً
+
         setTimeout(startSystem, 3000);
       }
 
       function handleBet() {
+        // حماية مضافة: منع الرهان كلياً إذا بدأت اللعبة
+        if (gameState !== "waiting")
+          return alert("الجولة جارية بالفعل! انتظر الجولة القادمة.");
+        if (isBetting) return;
+
         let amt = parseFloat(document.getElementById("betAmount").value);
         if (!amt || amt <= 0 || amt > balance) return alert("راجع رصيدك!");
-        db.ref("users/" + user + "/balance").set(balance - amt).then(() => {
-          isBetting = true;
-          const btn = document.getElementById("mainBtn");
-          btn.innerText = "تم قبول الرهان..";
-          btn.className = "btn btn-waiting";
-        });
+        db.ref("users/" + user + "/balance")
+          .set(balance - amt)
+          .then(() => {
+            isBetting = true;
+            const btn = document.getElementById("mainBtn");
+            btn.innerText = "تم قبول الرهان..";
+            btn.className = "btn btn-waiting";
+            btn.onclick = null;
+          });
       }
 
       function setButtonToCashOut() {
@@ -317,23 +430,36 @@
         btn.onclick = cashOut;
       }
 
+      function setButtonToDisabled() {
+        const btn = document.getElementById("mainBtn");
+        btn.className = "btn btn-waiting";
+        btn.innerText = "الجولة جارية الآن.. ❌";
+        btn.onclick = null;
+      }
+
       function updateProfitOnButton() {
         let amt = parseFloat(document.getElementById("betAmount").value);
         let currentWin = (amt * currentMultiplier).toFixed(2);
-        document.getElementById("mainBtn").innerText = `سحب (${currentWin} ج.م) 💰`;
+        document.getElementById(
+          "mainBtn"
+        ).innerText = `سحب (${currentWin} ج.م) 💰`;
       }
 
       function cashOut() {
-        if (gameState !== "running" || hasCashedOut) return;
+        if (gameState !== "running" || hasCashedOut || !isBetting) return;
         let amt = parseFloat(document.getElementById("betAmount").value);
         let finalWin = amt * currentMultiplier;
         hasCashedOut = true;
-        db.ref("users/" + user + "/balance").transaction((c) => (c || 0) + finalWin).then(() => {
-          const btn = document.getElementById("mainBtn");
-          btn.innerText = `كسبت ${finalWin.toFixed(2)}! ✅`;
-          btn.className = "btn btn-waiting";
-          btn.onclick = null;
-        });
+        isBetting = false; // تصفير الرهان بمجرد السحب بنجاح
+
+        db.ref("users/" + user + "/balance")
+          .transaction((c) => (c || 0) + finalWin)
+          .then(() => {
+            const btn = document.getElementById("mainBtn");
+            btn.innerText = `كسبت ${finalWin.toFixed(2)}! ✅`;
+            btn.className = "btn btn-waiting";
+            btn.onclick = null;
+          });
       }
 
       function resetButton() {
